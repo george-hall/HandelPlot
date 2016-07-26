@@ -1,3 +1,8 @@
+
+"""
+Plot the Mandelbrot Set.
+"""
+
 from PIL import Image
 
 def main():
