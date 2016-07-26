@@ -11,21 +11,22 @@ def main():
     Set up image canvas and plot the Mandelbrot Set.
     """
 
-    x_width = 750
-    y_width = 500
 
-    x_lower = int(x_width * (-2 / 3.0))
-    x_upper = int(x_width * (1 / 3.0)) + 1
+    window_horiz_width = 750
+    window_vert_width = 500
 
-    y_lower = int(y_width * (-1 / 2.0))
-    y_upper = int(y_width * (1 / 2.0)) + 1
+    window_min_x = int(window_horiz_width * (-2 / 3.0))
+    window_max_x = int(window_horiz_width * (1 / 3.0)) + 1
 
-    img = Image.new('RGB', (x_width + 1, y_width + 1), "black")
+    window_min_y = int(window_vert_width * (-1 / 2.0))
+    window_max_y = int(window_vert_width * (1 / 2.0)) + 1
+
+    img = Image.new('RGB', (window_horiz_width + 1, window_vert_width + 1), "black")
     pixels = img.load()
 
-    for i in xrange(x_lower, x_upper):
+    for i in xrange(window_min_x, window_max_x):
         real_part = i / 100.0
-        for j in xrange(y_lower, y_upper):
+        for j in xrange(window_min_y, window_max_y):
             im_part = j / 100.0
 
             z_value = (0+0j)
@@ -33,7 +34,7 @@ def main():
 
             for k in xrange(64):
                 if z_value.real > 2 or z_value.imag > 2:
-                    pixels[i + abs(x_lower), j + abs(y_lower)] = (k, k, k)
+                    pixels[i + abs(window_min_x), j + abs(window_min_y)] = (k, k, k)
                     break
                 else:
                     z_value = (z_value**2) + c_value
