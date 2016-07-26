@@ -7,6 +7,10 @@ from PIL import Image
 
 def main():
 
+    """
+    Set up image canvas and plot the Mandelbrot Set.
+    """
+
     x_width = 750
     y_width = 500
 
