@@ -29,14 +29,14 @@ def main():
             im_part = j / 100.0
 
             z_value = (0+0j)
-            c = (real_part + (im_part * 1j))
+            c_value = (real_part + (im_part * 1j))
 
             for k in xrange(64):
                 if z_value.real > 2 or z_value.imag > 2:
                     pixels[i + abs(x_lower), j + abs(y_lower)] = (k, k, k)
                     break
                 else:
-                    z_value = (z_value**2) + c
+                    z_value = (z_value**2) + c_value
 
     img.show()
 
