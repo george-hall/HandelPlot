@@ -5,15 +5,26 @@ Plot the Mandelbrot Set.
 
 from PIL import Image
 
+def create_blank_image(horiz_width, vert_width):
+
+    """
+    Returns a blank image with each pixel independently accessable.
+    """
+
+    return Image.new('RGB', (horiz_width + 1, vert_width + 1), "black")
+
+
 def main():
 
     """
     Set up image canvas and plot the Mandelbrot Set.
     """
 
-
     window_horiz_width = 750
     window_vert_width = 500
+
+    img = create_blank_image(window_horiz_width, window_vert_width)
+    pixels = img.load()
 
     window_min_x = int(window_horiz_width * (-2 / 3.0))
     window_max_x = int(window_horiz_width * (1 / 3.0)) + 1
@@ -21,8 +32,6 @@ def main():
     window_min_y = int(window_vert_width * (-1 / 2.0))
     window_max_y = int(window_vert_width * (1 / 2.0)) + 1
 
-    img = Image.new('RGB', (window_horiz_width + 1, window_vert_width + 1), "black")
-    pixels = img.load()
 
     for i in xrange(window_min_x, window_max_x):
         real_part = i / 100.0
