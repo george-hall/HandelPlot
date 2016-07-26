@@ -24,7 +24,7 @@ for i in xrange(x_lower, x_upper):
 
         for k in xrange(64):
             if z.real > 2 or z.imag > 2:
-                pixels[i + abs(x_lower), j + abs(y_lower)] = (k, 255, k)
+                pixels[i + abs(x_lower), j + abs(y_lower)] = (k, k, k)
                 break
             else:
                 z = (z**2) + c
