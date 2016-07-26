@@ -1,5 +1,3 @@
-import cmath
-
 from PIL import Image
 
 x_width = 750
