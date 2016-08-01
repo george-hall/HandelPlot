@@ -3,6 +3,8 @@
 Plot the Mandelbrot Set.
 """
 
+from __future__ import division
+
 from PIL import Image
 
 def create_blank_image(horiz_width, vert_width):
@@ -26,27 +28,33 @@ def main():
     img = create_blank_image(window_horiz_width, window_vert_width)
     pixels = img.load()
 
-    window_min_x = int(window_horiz_width * (-2 / 3.0))
-    window_max_x = int(window_horiz_width * (1 / 3.0)) + 1
+    real_axis_range = (-2, 1) # Min and max on real (x) axis
+    im_axis_range = (-1, 1) # Min and max on imaginary (y) axis
 
-    window_min_y = int(window_vert_width * (-1 / 2.0))
-    window_max_y = int(window_vert_width * (1 / 2.0)) + 1
+    # Increase in real component per pixel moved to the right
+    dx = abs(real_axis_range[1] - real_axis_range[0]) / window_horiz_width
 
+    # Increase in imaginary component per pixel moved downwards
+    dy = abs(im_axis_range[1] - im_axis_range[0]) / window_vert_width
 
-    for i in xrange(window_min_x, window_max_x):
-        real_part = i / 100.0
-        for j in xrange(window_min_y, window_max_y):
-            im_part = j / 100.0
+    real_part = real_axis_range[0]
+
+    for x_pixel in xrange(window_horiz_width):
+        im_part = im_axis_range[0]
+        for y_pixel in xrange(window_vert_width):
 
             z_value = (0+0j)
             c_value = (real_part + (im_part * 1j))
 
             for k in xrange(64):
                 if z_value.real > 2 or z_value.imag > 2:
-                    pixels[i + abs(window_min_x), j + abs(window_min_y)] = (k, k, k)
+                    pixels[x_pixel, y_pixel] = (k, k, k)
                     break
                 else:
                     z_value = (z_value**2) + c_value
+
+            im_part += dy
+        real_part += dx
 
     img.show()
 
