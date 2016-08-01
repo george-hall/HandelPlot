@@ -16,6 +16,21 @@ def create_blank_image(horiz_width, vert_width):
     return Image.new('RGB', (horiz_width + 1, vert_width + 1), "black")
 
 
+def compute_deltas(real_axis_range, im_axis_range, window_width, window_height):
+
+    """
+    Return the size of the range covered by each pixel for the x and y axes.
+    I.e. 'dx' is the jump in value of the real component of the a point for
+    every pixel moved in the positive x direction. 'dy' is the analaogue of
+    'dx' but for the imaginary (y) axis.
+    """
+
+    dx = abs(real_axis_range[1] - real_axis_range[0]) / window_width
+    dy = abs(im_axis_range[1] - im_axis_range[0]) / window_height
+
+    return (dx, dy)
+
+
 def populate_pixel_array(pixels, window_width, window_height, real_axis_range=(-2, 1), im_axis_range=(-1, 1)):
 
     """
@@ -23,11 +38,7 @@ def populate_pixel_array(pixels, window_width, window_height, real_axis_range=(-
     escapes the Mandelbrot Set.
     """
 
-    # Increase in real component per pixel moved to the right
-    dx = abs(real_axis_range[1] - real_axis_range[0]) / window_width
-
-    # Increase in imaginary component per pixel moved downwards
-    dy = abs(im_axis_range[1] - im_axis_range[0]) / window_height
+    (dx, dy) = compute_deltas(real_axis_range, im_axis_range, window_width, window_height)
 
     real_part = real_axis_range[0]
 
