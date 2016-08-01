@@ -16,20 +16,14 @@ def create_blank_image(horiz_width, vert_width):
     return Image.new('RGB', (horiz_width + 1, vert_width + 1), "black")
 
 
-def main():
+def populate_pixel_array(img, window_width, window_height, real_axis_range=(-2, 1), im_axis_range=(-1, 1)):
 
     """
-    Set up image canvas and plot the Mandelbrot Set.
+    Populate pixel array with colours set according to how quickly each point
+    escapes the Mandelbrot Set.
     """
 
-    window_width = 750
-    window_height = 500
-
-    img = create_blank_image(window_width, window_height)
     pixels = img.load()
-
-    real_axis_range = (-2, 1) # Min and max on real (x) axis
-    im_axis_range = (-1, 1) # Min and max on imaginary (y) axis
 
     # Increase in real component per pixel moved to the right
     dx = abs(real_axis_range[1] - real_axis_range[0]) / window_width
@@ -56,7 +50,22 @@ def main():
             im_part += dy
         real_part += dx
 
-    img.show()
+    return img
+
+
+def main():
+
+    """
+    Set up blank image canvas and run function to populate pixels. Then plot
+    the result.
+    """
+
+    window_width = 750
+    window_height = 500
+
+    img = create_blank_image(window_width, window_height)
+    populate_pixel_array(img, window_width, window_height).show()
+
 
 if __name__ == "__main__":
     main()
