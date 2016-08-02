@@ -46,9 +46,9 @@ def compute_escape_iterations(current_point):
     z_value = (0+0j)
     c_value = (current_point.real + (current_point.imag * 1j))
 
-    for k in xrange(64):
+    for iteration_number in xrange(64):
         if z_value.real > 2 or z_value.imag > 2:
-            return k
+            return iteration_number
         else:
             z_value = (z_value**2) + c_value
 
