@@ -32,7 +32,7 @@ def compute_deltas(real_axis_range, im_axis_range, window_width,
     return (dx, dy)
 
 
-def compute_escape_iterations(real_part, im_part):
+def compute_escape_iterations(current_point):
 
     """
     Compute the number of iterations required for this point to escape the
@@ -41,7 +41,7 @@ def compute_escape_iterations(real_part, im_part):
     """
 
     z_value = (0+0j)
-    c_value = (real_part + (im_part * 1j))
+    c_value = (current_point.real + (current_point.imag * 1j))
 
     for k in xrange(64):
         if z_value.real > 2 or z_value.imag > 2:
@@ -63,20 +63,20 @@ def populate_pixel_array(pixels, window_width, window_height,
     (dx, dy) = compute_deltas(real_axis_range, im_axis_range, window_width,
                               window_height)
 
-    real_part = real_axis_range[0] # Real component of current point
+    current_point = real_axis_range[0] + (im_axis_range[0] * 1j)
 
     for x_pixel in xrange(window_width):
-        im_part = im_axis_range[0] # Imaginary component of current point
+        current_point = current_point.real + (im_axis_range[0] * 1j)
         for y_pixel in xrange(window_height):
 
-            escape_iterations = compute_escape_iterations(real_part, im_part)
+            escape_iterations = compute_escape_iterations(current_point)
             if escape_iterations != -1:
                 pixels[x_pixel, y_pixel] = (escape_iterations,
                                             escape_iterations,
                                             escape_iterations)
 
-            im_part += dy
-        real_part += dx
+            current_point += (dy * 1j)
+        current_point += dx
 
     return pixels
 
