@@ -68,7 +68,6 @@ def populate_pixel_array(pixels, window_width, window_height,
     current_point = real_axis_range[0] + (im_axis_range[0] * 1j)
 
     for x_pixel in xrange(window_width):
-        current_point = current_point.real + (im_axis_range[0] * 1j)
         for y_pixel in xrange(window_height):
             escape_iterations = compute_escape_iterations(current_point)
             if escape_iterations != -1:
@@ -77,7 +76,7 @@ def populate_pixel_array(pixels, window_width, window_height,
                                             escape_iterations)
 
             current_point += (dy * 1j)
-        current_point += dx
+        current_point = (current_point.real + dx) + (im_axis_range[0] * 1j)
 
     return pixels
 
