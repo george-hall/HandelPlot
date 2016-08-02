@@ -32,6 +32,26 @@ def compute_deltas(real_axis_range, im_axis_range, window_width,
     return (dx, dy)
 
 
+def compute_escape_iterations(real_part, im_part):
+
+    """
+    Compute the number of iterations required for this point to escape the
+    Mandelbrot Set. Otherwise, return -1, signifying that the point is, in fact
+    in the Set.
+    """
+
+    z_value = (0+0j)
+    c_value = (real_part + (im_part * 1j))
+
+    for k in xrange(64):
+        if z_value.real > 2 or z_value.imag > 2:
+            return k
+        else:
+            z_value = (z_value**2) + c_value
+
+    return -1
+
+
 def populate_pixel_array(pixels, window_width, window_height,
                          real_axis_range=(-2, 1), im_axis_range=(-1, 1)):
 
@@ -49,15 +69,11 @@ def populate_pixel_array(pixels, window_width, window_height,
         im_part = im_axis_range[0] # Imaginary component of current point
         for y_pixel in xrange(window_height):
 
-            z_value = (0+0j)
-            c_value = (real_part + (im_part * 1j))
-
-            for k in xrange(64):
-                if z_value.real > 2 or z_value.imag > 2:
-                    pixels[x_pixel, y_pixel] = (k, k, k)
-                    break
-                else:
-                    z_value = (z_value**2) + c_value
+            escape_iterations = compute_escape_iterations(real_part, im_part)
+            if escape_iterations != -1:
+                pixels[x_pixel, y_pixel] = (escape_iterations,
+                                            escape_iterations,
+                                            escape_iterations)
 
             im_part += dy
         real_part += dx
