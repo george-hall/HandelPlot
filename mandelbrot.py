@@ -16,7 +16,8 @@ def create_blank_image(horiz_width, vert_width):
     return Image.new('RGB', (horiz_width + 1, vert_width + 1), "black")
 
 
-def compute_deltas(real_axis_range, im_axis_range, window_width, window_height):
+def compute_deltas(real_axis_range, im_axis_range, window_width,
+                   window_height):
 
     """
     Return the size of the range covered by each pixel for the x and y axes.
@@ -31,19 +32,21 @@ def compute_deltas(real_axis_range, im_axis_range, window_width, window_height):
     return (dx, dy)
 
 
-def populate_pixel_array(pixels, window_width, window_height, real_axis_range=(-2, 1), im_axis_range=(-1, 1)):
+def populate_pixel_array(pixels, window_width, window_height,
+                         real_axis_range=(-2, 1), im_axis_range=(-1, 1)):
 
     """
     Populate pixel array with colours set according to how quickly each point
     escapes the Mandelbrot Set.
     """
 
-    (dx, dy) = compute_deltas(real_axis_range, im_axis_range, window_width, window_height)
+    (dx, dy) = compute_deltas(real_axis_range, im_axis_range, window_width,
+                              window_height)
 
-    real_part = real_axis_range[0]
+    real_part = real_axis_range[0] # Real component of current point
 
     for x_pixel in xrange(window_width):
-        im_part = im_axis_range[0]
+        im_part = im_axis_range[0] # Imaginary component of current point
         for y_pixel in xrange(window_height):
 
             z_value = (0+0j)
