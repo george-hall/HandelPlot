@@ -103,6 +103,8 @@ def main():
 
     label = Tkinter.Label(root, image=image)
     label.grid()
+
+    root.title("HandelPlot")
     root.mainloop()
 
 
