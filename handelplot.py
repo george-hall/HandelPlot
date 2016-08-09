@@ -104,6 +104,7 @@ def main():
     label = Tkinter.Label(root, image=image)
     label.grid()
 
+    root.iconbitmap('@images/handel_icon.xbm')
     root.title("HandelPlot")
     root.mainloop()
 
