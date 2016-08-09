@@ -7,16 +7,7 @@ Plot the Mandelbrot Set.
 
 from __future__ import division
 
-from PIL import Image
-
-
-def create_blank_image(horiz_width, vert_width):
-
-    """
-    Returns a blank image with each pixel independently accessable.
-    """
-
-    return Image.new('RGB', (horiz_width + 1, vert_width + 1), "black")
+import Tkinter
 
 
 def compute_deltas(real_axis_range, im_axis_range, window_width,
@@ -55,12 +46,24 @@ def compute_escape_iterations(current_point):
     return -1
 
 
-def populate_pixel_array(pixels, window_width, window_height,
+def colour_pixel(image, pos, colours):
+
+    """
+    Set pixel with co-ordinates given in pos to RGB colour given by colours.
+    """
+
+    r, g, b = colours
+    x, y = pos
+
+    image.put("#%02x%02x%02x" % (r, g, b), (y, x))
+
+
+def populate_pixel_array(image, window_width, window_height,
                          real_axis_range=(-2, 1), im_axis_range=(-1, 1)):
 
     """
-    Populate pixel array with colours set according to how quickly each point
-    escapes the Mandelbrot Set.
+    Populate pixels in 'image' with colours set according to how quickly each
+    pixel's corresponding point escapes the Mandelbrot Set.
     """
 
     (dx, dy) = compute_deltas(real_axis_range, im_axis_range, window_width,
@@ -71,30 +74,36 @@ def populate_pixel_array(pixels, window_width, window_height,
         for y_pixel in xrange(window_height):
             escape_iterations = compute_escape_iterations(current_point)
             if escape_iterations != -1:
-                pixels[x_pixel, y_pixel] = (escape_iterations,
-                                            escape_iterations,
-                                            escape_iterations)
+                colour_pixel(image, (y_pixel, x_pixel),
+                             (escape_iterations,
+                              escape_iterations,
+                              escape_iterations))
+            else:
+                colour_pixel(image, (y_pixel, x_pixel), (0, 0, 0))
 
             current_point += (dy * 1j)
         current_point = (current_point.real + dx) + (im_axis_range[0] * 1j)
-
-    return pixels
 
 
 def main():
 
     """
-    Set up blank image canvas and run function to populate pixels. Then plot
-    the result.
+    Do Tkinter bootplating, and create blank image to be populated. Do this
+    population and then plot the result.
     """
+
+    root = Tkinter.Tk()
 
     window_width = 750
     window_height = 500
 
-    img = create_blank_image(window_width, window_height)
-    pixels = img.load()
-    pixels = populate_pixel_array(pixels, window_width, window_height)
-    img.show()
+    image = Tkinter.PhotoImage(height=window_height, width=window_width)
+
+    populate_pixel_array(image, window_width, window_height)
+
+    label = Tkinter.Label(root, image=image)
+    label.grid()
+    root.mainloop()
 
 
 if __name__ == "__main__":
