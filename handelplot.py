@@ -7,6 +7,8 @@ Plot the Mandelbrot Set.
 
 from __future__ import division
 
+import colorsys
+
 import Tkinter
 
 
@@ -52,10 +54,11 @@ def colour_pixel(image, pos, colours):
     Set pixel with co-ordinates given in pos to RGB colour given by colours.
     """
 
-    r, g, b = colours
+    h, s, v = colours
     x, y = pos
 
-    image.put("#%02x%02x%02x" % (r, g, b), (y, x))
+    r, g, b = colorsys.hsv_to_rgb(h, s, v)
+    image.put("#%02x%02x%02x" % (r*255, g*255, b*255), (y, x))
 
 
 def populate_pixel_array(image, window_width, window_height,
@@ -75,9 +78,7 @@ def populate_pixel_array(image, window_width, window_height,
             escape_iterations = compute_escape_iterations(current_point)
             if escape_iterations != -1:
                 colour_pixel(image, (y_pixel, x_pixel),
-                             (escape_iterations,
-                              escape_iterations,
-                              escape_iterations))
+                             (escape_iterations / 64, 1, 1))
             else:
                 colour_pixel(image, (y_pixel, x_pixel), (0, 0, 0))
 
