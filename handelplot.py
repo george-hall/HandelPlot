@@ -7,6 +7,7 @@ Plot the Mandelbrot Set.
 
 from __future__ import division
 
+import math
 import colorsys
 
 import Tkinter
@@ -31,9 +32,10 @@ def compute_deltas(real_axis_range, im_axis_range, window_width,
 def compute_escape_iterations(current_point):
 
     """
-    Compute the number of iterations required for this point to escape the
-    Mandelbrot Set. Otherwise, return -1, signifying that the point is, in fact
-    in the Set.
+    Compute and return the number of iterations required for this point to
+    escape the Mandelbrot Set, and the value of the point when the escape
+    occurred. Otherwise, return -1 and the value of the point, signifying that
+    the point is, in fact in the Set.
     """
 
     z_value = (0+0j)
@@ -41,11 +43,11 @@ def compute_escape_iterations(current_point):
 
     for iteration_number in xrange(64):
         if z_value.real > 2 or z_value.imag > 2:
-            return iteration_number
+            return (z_value, iteration_number)
         else:
             z_value = (z_value**2) + c_value
 
-    return -1
+    return (z_value, -1)
 
 
 def colour_pixel(image, pos, colours):
@@ -75,10 +77,11 @@ def populate_pixel_array(image, window_width, window_height,
 
     for x_pixel in xrange(window_width):
         for y_pixel in xrange(window_height):
-            escape_iterations = compute_escape_iterations(current_point)
+            escape_val, escape_iterations = compute_escape_iterations(current_point)
             if escape_iterations != -1:
+                hue = escape_iterations + 1 - math.log(math.log(abs(escape_val))) / math.log(2)
                 colour_pixel(image, (y_pixel, x_pixel),
-                             (escape_iterations / 64, 1, 1))
+                             (hue, 1, 1))
             else:
                 colour_pixel(image, (y_pixel, x_pixel), (0, 0, 0))
 
