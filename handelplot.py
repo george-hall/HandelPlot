@@ -29,7 +29,7 @@ def compute_deltas(real_axis_range, im_axis_range, window_width,
     return (dx, dy)
 
 
-def compute_escape_iterations(current_point):
+def decide_if_point_escapes(current_point):
 
     """
     Compute and return the number of iterations required for this point to
@@ -77,7 +77,7 @@ def populate_pixel_array(image, window_width, window_height,
 
     for x_pixel in xrange(window_width):
         for y_pixel in xrange(window_height):
-            escape_val, escape_iterations = compute_escape_iterations(current_point)
+            escape_val, escape_iterations = decide_if_point_escapes(current_point)
             if escape_iterations != -1:
                 hue = escape_iterations + 1 - math.log(math.log(abs(escape_val))) / math.log(2)
                 colour_pixel(image, (y_pixel, x_pixel),
