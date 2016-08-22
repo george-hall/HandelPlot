@@ -77,12 +77,12 @@ def populate_pixel_array(image, window_width, window_height,
 
     for x_pixel in xrange(window_width):
         for y_pixel in xrange(window_height):
-            escape_val, escape_iterations = decide_if_point_escapes(current_point)
-            if escape_iterations != -1:
+            escape_val, num_iterations = decide_if_point_escapes(current_point)
+            if num_iterations != -1:
 
                 # Alter hue in proportion to how quickly the point escapes the
                 # Set and how large it grows
-                hue = escape_iterations + 1 - \
+                hue = num_iterations + 1 - \
                         (math.log(math.log(abs(escape_val))) / math.log(2))
 
                 colour_pixel(image, (y_pixel, x_pixel),
