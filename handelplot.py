@@ -84,6 +84,7 @@ def populate_pixel_array(image, window_width, window_height,
                 # Set and how large it grows
                 hue = num_iterations + 1 - \
                         (math.log(math.log(abs(escape_val))) / math.log(2))
+                hue = hue / 64
 
                 colour_pixel(image, (y_pixel, x_pixel),
                              (hue, 1, 1))
