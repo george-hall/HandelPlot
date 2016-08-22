@@ -60,7 +60,7 @@ def colour_pixel(image, pos, colours):
     x, y = pos
 
     r, g, b = colorsys.hsv_to_rgb(h, s, v)
-    image.put("#%02x%02x%02x" % (r*255, g*255, b*255), (y, x))
+    image.put("#%02x%02x%02x" % (r * 255, g * 255, b * 255), (y, x))
 
 
 def populate_pixel_array(image, window_width, window_height,
