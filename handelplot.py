@@ -7,6 +7,7 @@ Plot the Mandelbrot Set.
 
 from __future__ import division
 
+import argparse
 import math
 import colorsys
 
@@ -95,6 +96,22 @@ def populate_pixel_array(image, window_width, window_height,
         current_point = (current_point.real + dx) + (im_axis_range[0] * 1j)
 
 
+def create_parser():
+
+    """
+    Creates and returns an Argparse parser.
+    """
+
+    parser = argparse.ArgumentParser(description="Plot the Mandelbrot set")
+
+    parser.add_argument("--width", default=750, type=int,
+                        help="width of the window in pixels")
+    parser.add_argument("--height", default=500, type=int,
+                        help="height of the window in pixels")
+
+    return parser
+
+
 def main():
 
     """
@@ -104,8 +121,11 @@ def main():
 
     root = Tkinter.Tk()
 
-    window_width = 750
-    window_height = 500
+    parser = create_parser()
+    args = parser.parse_args()
+
+    window_width = args.width
+    window_height = args.height
 
     image = Tkinter.PhotoImage(height=window_height, width=window_width)
 
