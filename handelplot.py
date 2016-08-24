@@ -102,6 +102,28 @@ def create_parser():
     return parser
 
 
+def motion(event, diagram):
+
+    """
+    Event handler for motion of the mouse over the diagram. Currently, this
+    prints the co-ordiantes of the location of the mouse in terms of the Argand
+    Diagram.
+    """
+
+    x, y = event.x, event.y
+
+    dx, dy = diagram.dx, diagram.dy
+
+    # Components of the co-ordinates of the mouse's current location
+    real_ordinate = diagram.real_range[0] + (x * dx)
+    im_ordinate = diagram.im_range[1] - (y * dy)
+
+    if im_ordinate >= 0:
+        print str(real_ordinate) + "+" + str(im_ordinate) + "i"
+    else:
+        print str(real_ordinate) + str(im_ordinate) + "i"
+
+
 class Diagram(object):
 
     """
@@ -158,6 +180,7 @@ def main():
     image = Tkinter.PhotoImage(height=window_height, width=window_width)
     populate_pixel_array(image, diagram)
 
+    root.bind('<Motion>', lambda event: motion(event, diagram))
 
     label = Tkinter.Label(root, image=image)
     label.grid()
