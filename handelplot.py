@@ -14,22 +14,6 @@ import colorsys
 import Tkinter
 
 
-def compute_deltas(real_axis_range, im_axis_range, window_width,
-                   window_height):
-
-    """
-    Return the size of the range covered by each pixel for the x and y axes.
-    I.e. 'dx' is the jump in value of the real component of the a point for
-    every pixel moved in the positive x direction. 'dy' is the analaogue of
-    'dx' but for the imaginary (y) axis.
-    """
-
-    dx = abs(real_axis_range[1] - real_axis_range[0]) / window_width
-    dy = abs(im_axis_range[1] - im_axis_range[0]) / window_height
-
-    return (dx, dy)
-
-
 def decide_if_point_escapes(current_point):
 
     """
@@ -64,16 +48,22 @@ def colour_pixel(image, pos, colours):
     image.put("#%02x%02x%02x" % (r * 255, g * 255, b * 255), (y, x))
 
 
-def populate_pixel_array(image, window_width, window_height,
-                         real_axis_range=(-2, 1), im_axis_range=(-1, 1)):
+def populate_pixel_array(image, diagram):
 
     """
     Populate pixels in 'image' with colours set according to how quickly each
     pixel's corresponding point escapes the Mandelbrot Set.
     """
 
-    (dx, dy) = compute_deltas(real_axis_range, im_axis_range, window_width,
-                              window_height)
+    window_width = diagram.window_width
+    window_height = diagram.window_height
+
+    real_axis_range = diagram.real_range
+    im_axis_range = diagram.im_range
+
+    dx = diagram.dx
+    dy = diagram.dy
+
     current_point = real_axis_range[0] + (im_axis_range[0] * 1j)
 
     for x_pixel in xrange(window_width):
@@ -112,6 +102,42 @@ def create_parser():
     return parser
 
 
+class Diagram(object):
+
+    """
+    The Diagram class is used to represent Argand Diagram used to display the
+    plot of the Mandelbrot Set.
+    """
+
+    def __init__(self, window_width, window_height):
+        self.real_range = (-2, 1)
+        self.im_range = (-1, 1)
+        self.window_width = window_width
+        self.window_height = window_height
+        self.dx, self.dy = self.set_deltas()
+
+    def set_deltas(self):
+
+        """
+        Sets self.dx and self.dy to be the size of the range covered by each
+        pixel for the x and y axes.  I.e. 'dx' is the jump in value of the real
+        component of the a point for every pixel moved in the positive x
+        direction. 'dy' is the analaogue of 'dx' but for the imaginary (y)
+        axis.
+        """
+
+        real_axis_range = self.real_range
+        im_axis_range = self.im_range
+
+        window_width = self.window_width
+        window_height = self.window_height
+
+        dx = abs(real_axis_range[1] - real_axis_range[0]) / window_width
+        dy = abs(im_axis_range[1] - im_axis_range[0]) / window_height
+
+        return (dx, dy)
+
+
 def main():
 
     """
@@ -127,9 +153,11 @@ def main():
     window_width = args.width
     window_height = args.height
 
-    image = Tkinter.PhotoImage(height=window_height, width=window_width)
+    diagram = Diagram(window_width, window_height)
 
-    populate_pixel_array(image, window_width, window_height)
+    image = Tkinter.PhotoImage(height=window_height, width=window_width)
+    populate_pixel_array(image, diagram)
+
 
     label = Tkinter.Label(root, image=image)
     label.grid()
