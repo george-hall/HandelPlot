@@ -55,14 +55,9 @@ def populate_pixel_array(image, diagram):
     pixel's corresponding point escapes the Mandelbrot Set.
     """
 
-    window_width = diagram.window_width
-    window_height = diagram.window_height
-
-    real_axis_range = diagram.real_range
-    im_axis_range = diagram.im_range
-
-    dx = diagram.dx
-    dy = diagram.dy
+    window_width, window_height = diagram.get_window_dimensions()
+    real_axis_range, im_axis_range = diagram.get_axis_ranges()
+    dx, dy = diagram.get_deltas()
 
     current_point = real_axis_range[0] + (im_axis_range[0] * 1j)
 
@@ -111,12 +106,13 @@ def motion(event, diagram):
     """
 
     x, y = event.x, event.y
-
-    dx, dy = diagram.dx, diagram.dy
+    dx, dy = diagram.get_deltas()
+    real_range = diagram.get_real_range()
+    im_range = diagram.get_im_range()
 
     # Components of the co-ordinates of the mouse's current location
-    real_ordinate = diagram.real_range[0] + (x * dx)
-    im_ordinate = diagram.im_range[1] - (y * dy)
+    real_ordinate = real_range[0] + (x * dx)
+    im_ordinate = im_range[1] - (y * dy)
 
     if im_ordinate >= 0:
         print str(real_ordinate) + "+" + str(im_ordinate) + "i"
@@ -158,6 +154,42 @@ class Diagram(object):
         dy = abs(im_axis_range[1] - im_axis_range[0]) / window_height
 
         return (dx, dy)
+
+    def get_real_range(self):
+        """Getter for real_range"""
+        return self.real_range
+
+    def get_im_range(self):
+        """Getter for im_range"""
+        return self.im_range
+
+    def get_axis_ranges(self):
+        """Getter for ranges of both axes"""
+        return (self.get_real_range(), self.get_im_range())
+
+    def get_dx(self):
+        """Getter for dx"""
+        return self.dx
+
+    def get_dy(self):
+        """Getter for dy"""
+        return self.dy
+
+    def get_deltas(self):
+        """Getter for both deltas"""
+        return (self.get_dx(), self.get_dy())
+
+    def get_window_height(self):
+        """Getter for window_height"""
+        return self.window_height
+
+    def get_window_width(self):
+        """Getter for window_width"""
+        return self.window_width
+
+    def get_window_dimensions(self):
+        """Getter for both window dimensions"""
+        return (self.get_window_width(), self.get_window_height())
 
 
 def main():
