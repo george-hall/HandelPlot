@@ -129,6 +129,32 @@ class Diagram(object):
     plot of the Mandelbrot Set.
     """
 
+    class UserDrawnRectangle(object):
+
+        """
+        Class to represent the rectangle currently being drawn by the user.
+        """
+
+        def __init__(self, canvas, start_x, start_y):
+            self.start_x = start_x
+            self.start_y = start_y
+            self.rectangle_object = canvas.create_rectangle(self.get_start_x(),
+                                                            self.get_start_y(),
+                                                            self.get_start_x(),
+                                                            self.get_start_y())
+
+        def get_start_x(self):
+            """Getter for the x ordinate of where the rectangle was started"""
+            return self.start_x
+
+        def get_start_y(self):
+            """Getter for the y ordinate of where the rectangle was started"""
+            return self.start_y
+
+        def get_rectangle_object(self):
+            """Getter for the rectangle object itself"""
+            return self.rectangle_object
+
     def __init__(self, window_width, window_height):
         self.real_range = (-2, 1)
         self.im_range = (-1, 1)
@@ -136,6 +162,20 @@ class Diagram(object):
         self.window_height = window_height
         self.set_deltas()
         self.dx, self.dy = self.get_deltas()
+        self.rectangle = None
+
+    def create_user_drawn_rectangle(self, canvas, start_x, start_y):
+
+        """
+        Creates an instance of class UserDrawnRectangle and stores it at
+        self.rectangle.
+        """
+
+        self.rectangle = self.UserDrawnRectangle(canvas, start_x, start_y)
+
+    def get_user_drawn_rectangle(self):
+        """Getter for user drawn rectangle"""
+        return self.rectangle
 
     def set_deltas(self):
 
@@ -193,6 +233,34 @@ class Diagram(object):
         return (self.get_window_width(), self.get_window_height())
 
 
+def button_1_press(event, diagram, canvas):
+
+    """
+    Event handler for the left mouse button being pressed. This function
+    creates a rectangle at the location of the click, which can be expanded by
+    the user dragging the mouse with the button held.
+    """
+
+    if diagram.get_user_drawn_rectangle() is not None:
+        canvas.delete(diagram.get_user_drawn_rectangle().get_rectangle_object())
+        diagram.rectangle = None
+
+    diagram.create_user_drawn_rectangle(canvas, event.x, event.y)
+
+
+def button_1_motion(event, diagram, canvas):
+
+    """
+    Event handler for the mouse being dragged with button 1 held. This expands
+    the rectangle created when the button was first pressed.
+    """
+
+    canvas.coords(diagram.get_user_drawn_rectangle().get_rectangle_object(),
+                  diagram.get_user_drawn_rectangle().get_start_x(),
+                  diagram.get_user_drawn_rectangle().get_start_y(),
+                  event.x, event.y)
+
+
 def main():
 
     """
@@ -216,8 +284,17 @@ def main():
     diagram_canvas.create_image((diagram.get_window_width() / 2,
                                  diagram.get_window_height() / 2),
                                 image=image)
+
     diagram_canvas.bind('<Motion>',
                         lambda event: motion(event, diagram, current_pos_str))
+    diagram_canvas.bind('<Button-1>',
+                        lambda event: button_1_press(event,
+                                                     diagram,
+                                                     diagram_canvas))
+    diagram_canvas.bind('<B1-Motion>',
+                        lambda event: button_1_motion(event,
+                                                      diagram,
+                                                      diagram_canvas))
     diagram_canvas.grid()
 
     populate_pixel_array(image, diagram)
