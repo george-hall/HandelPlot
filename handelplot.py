@@ -209,18 +209,23 @@ def main():
 
     image = Tkinter.PhotoImage(height=diagram.get_window_height(),
                                width=diagram.get_window_width())
-    populate_pixel_array(image, diagram)
 
-    diagram_label = Tkinter.Label(root, image=image, cursor='tcross')
-    diagram_label.grid()
+    diagram_canvas = Tkinter.Canvas(root, width=diagram.get_window_width(),
+                                    height=diagram.get_window_height(),
+                                    cursor='tcross')
+    diagram_canvas.create_image((diagram.get_window_width() / 2,
+                                 diagram.get_window_height() / 2),
+                                image=image)
+    diagram_canvas.bind('<Motion>',
+                        lambda event: motion(event, diagram, current_pos_str))
+    diagram_canvas.grid()
+
+    populate_pixel_array(image, diagram)
 
     current_pos_str = Tkinter.StringVar()
     current_pos_str.set("Current mouse position")
     current_pos_label = Tkinter.Label(root, textvariable=current_pos_str)
     current_pos_label.grid()
-
-    diagram_label.bind('<Motion>',
-                       lambda event: motion(event, diagram, current_pos_str))
 
     root.iconbitmap('@images/handel_icon.xbm')
     root.title("HandelPlot")
