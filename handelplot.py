@@ -220,7 +220,7 @@ def main():
     current_pos_label = Tkinter.Label(root, textvariable=current_pos_str)
     current_pos_label.grid()
 
-    root.bind('<Motion>', lambda event: motion(event, diagram, current_pos_str))
+    label.bind('<Motion>', lambda event: motion(event, diagram, current_pos_str))
 
     root.iconbitmap('@images/handel_icon.xbm')
     root.title("HandelPlot")
