@@ -204,12 +204,10 @@ def main():
     parser = create_parser()
     args = parser.parse_args()
 
-    window_width = args.width
-    window_height = args.height
+    diagram = Diagram(args.width, args.height)
 
-    diagram = Diagram(window_width, window_height)
-
-    image = Tkinter.PhotoImage(height=window_height, width=window_width)
+    image = Tkinter.PhotoImage(height=diagram.get_window_height(),
+                               width=diagram.get_window_width())
     populate_pixel_array(image, diagram)
 
     diagram_label = Tkinter.Label(root, image=image)
