@@ -210,7 +210,7 @@ def main():
                                width=diagram.get_window_width())
     populate_pixel_array(image, diagram)
 
-    diagram_label = Tkinter.Label(root, image=image)
+    diagram_label = Tkinter.Label(root, image=image, cursor='tcross')
     diagram_label.grid()
 
     current_pos_str = Tkinter.StringVar()
