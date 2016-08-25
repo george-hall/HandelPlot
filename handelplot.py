@@ -97,7 +97,7 @@ def create_parser():
     return parser
 
 
-def motion(event, diagram):
+def motion(event, diagram, current_pos_str):
 
     """
     Event handler for motion of the mouse over the diagram. Currently, this
@@ -114,10 +114,11 @@ def motion(event, diagram):
     real_ordinate = real_range[0] + (x * dx)
     im_ordinate = im_range[1] - (y * dy)
 
+    # Update current position label to display mouse's new position
     if im_ordinate >= 0:
-        print str(real_ordinate) + "+" + str(im_ordinate) + "i"
+        current_pos_str.set(str(real_ordinate) + "+" + str(im_ordinate) + "i")
     else:
-        print str(real_ordinate) + str(im_ordinate) + "i"
+        current_pos_str.set(str(real_ordinate) + str(im_ordinate) + "i")
 
 
 class Diagram(object):
@@ -211,10 +212,15 @@ def main():
     image = Tkinter.PhotoImage(height=window_height, width=window_width)
     populate_pixel_array(image, diagram)
 
-    root.bind('<Motion>', lambda event: motion(event, diagram))
-
     label = Tkinter.Label(root, image=image)
     label.grid()
+
+    current_pos_str = Tkinter.StringVar()
+    current_pos_str.set("Current mouse position")
+    current_pos_label = Tkinter.Label(root, textvariable=current_pos_str)
+    current_pos_label.grid()
+
+    root.bind('<Motion>', lambda event: motion(event, diagram, current_pos_str))
 
     root.iconbitmap('@images/handel_icon.xbm')
     root.title("HandelPlot")
