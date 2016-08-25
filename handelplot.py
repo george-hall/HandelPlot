@@ -132,7 +132,8 @@ class Diagram(object):
         self.im_range = (-1, 1)
         self.window_width = window_width
         self.window_height = window_height
-        self.dx, self.dy = self.set_deltas()
+        self.set_deltas()
+        self.dx, self.dy = self.get_deltas()
 
     def set_deltas(self):
 
@@ -150,10 +151,8 @@ class Diagram(object):
         window_width = self.window_width
         window_height = self.window_height
 
-        dx = abs(real_axis_range[1] - real_axis_range[0]) / window_width
-        dy = abs(im_axis_range[1] - im_axis_range[0]) / window_height
-
-        return (dx, dy)
+        self.dx = abs(real_axis_range[1] - real_axis_range[0]) / window_width
+        self.dy = abs(im_axis_range[1] - im_axis_range[0]) / window_height
 
     def get_real_range(self):
         """Getter for real_range"""
