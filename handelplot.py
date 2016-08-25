@@ -212,15 +212,15 @@ def main():
     image = Tkinter.PhotoImage(height=window_height, width=window_width)
     populate_pixel_array(image, diagram)
 
-    label = Tkinter.Label(root, image=image)
-    label.grid()
+    diagram_label = Tkinter.Label(root, image=image)
+    diagram_label.grid()
 
     current_pos_str = Tkinter.StringVar()
     current_pos_str.set("Current mouse position")
     current_pos_label = Tkinter.Label(root, textvariable=current_pos_str)
     current_pos_label.grid()
 
-    label.bind('<Motion>', lambda event: motion(event, diagram, current_pos_str))
+    diagram_label.bind('<Motion>', lambda event: motion(event, diagram, current_pos_str))
 
     root.iconbitmap('@images/handel_icon.xbm')
     root.title("HandelPlot")
