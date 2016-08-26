@@ -270,10 +270,9 @@ def button_1_motion(event, diagram, canvas):
     the rectangle created when the button was first pressed.
     """
 
-    canvas.coords(diagram.get_user_drawn_rectangle().get_rectangle_object(),
-                  diagram.get_user_drawn_rectangle().get_start_x(),
-                  diagram.get_user_drawn_rectangle().get_start_y(),
-                  event.x, event.y)
+    rectangle = diagram.get_user_drawn_rectangle()
+    canvas.coords(rectangle.get_rectangle_object(), rectangle.get_start_x(),
+                  rectangle.get_start_y(), event.x, event.y)
 
 
 def main():
