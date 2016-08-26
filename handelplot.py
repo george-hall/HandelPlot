@@ -118,6 +118,18 @@ def convert_to_diagram_coords(window_x, window_y, diagram):
     return (real_ordinate, im_ordinate)
 
 
+def convert_real_im_to_str(real, imaginary):
+
+    """
+    Converts a (real, imaginary) pair to a string representation.
+    """
+
+    if imaginary >= 0:
+        return str(real) + "+" + str(imaginary) + "i"
+    else:
+        return str(real) + str(imaginary) + "i"
+
+
 def motion(event, diagram, current_pos_str):
 
     """
@@ -131,10 +143,8 @@ def motion(event, diagram, current_pos_str):
                                                            diagram)
 
     # Update current position label to display mouse's new position
-    if im_ordinate >= 0:
-        current_pos_str.set(str(real_ordinate) + "+" + str(im_ordinate) + "i")
-    else:
-        current_pos_str.set(str(real_ordinate) + str(im_ordinate) + "i")
+    new_location_str = convert_real_im_to_str(real_ordinate, im_ordinate)
+    current_pos_str.set(new_location_str)
 
 
 class Diagram(object):
