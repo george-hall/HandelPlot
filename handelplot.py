@@ -98,6 +98,26 @@ def create_parser():
     return parser
 
 
+def convert_to_diagram_coords(window_x, window_y, diagram):
+
+    """
+    Converts coordinate pairs from being given in the context of the window
+    (i.e. being given in terms of pixels) to being given in the context of the
+    Argand Diagram (i.e. being given as the (real, imaginary) pair which
+    corresponds to the pixel's location in the Argand Diagram).
+    """
+
+    dx, dy = diagram.get_deltas()
+    real_range = diagram.get_real_range()
+    im_range = diagram.get_im_range()
+
+    # Components of the co-ordinates of the mouse's current location
+    real_ordinate = real_range[0] + (window_x * dx)
+    im_ordinate = im_range[1] - (window_y * dy)
+
+    return (real_ordinate, im_ordinate)
+
+
 def motion(event, diagram, current_pos_str):
 
     """
@@ -106,14 +126,9 @@ def motion(event, diagram, current_pos_str):
     Diagram.
     """
 
-    x, y = event.x, event.y
-    dx, dy = diagram.get_deltas()
-    real_range = diagram.get_real_range()
-    im_range = diagram.get_im_range()
-
-    # Components of the co-ordinates of the mouse's current location
-    real_ordinate = real_range[0] + (x * dx)
-    im_ordinate = im_range[1] - (y * dy)
+    real_ordinate, im_ordinate = convert_to_diagram_coords(event.x,
+                                                           event.y,
+                                                           diagram)
 
     # Update current position label to display mouse's new position
     if im_ordinate >= 0:
