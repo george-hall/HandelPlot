@@ -217,8 +217,8 @@ class Diagram(object):
         axis.
         """
 
-        real_axis_range = self.real_range
-        im_axis_range = self.im_range
+        real_axis_range = self.get_real_range()
+        im_axis_range = self.get_im_range()
 
         window_width = self.window_width
         window_height = self.window_height
