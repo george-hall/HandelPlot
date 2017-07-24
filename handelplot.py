@@ -354,6 +354,11 @@ def main():
                                                       diagram,
                                                       diagram_canvas,
                                                       rectangle_pos_str))
+
+    diagram_canvas.bind('<ButtonRelease-1>',
+                        lambda event: button_1_release(event, diagram,
+                                                       diagram_canvas, image))
+
     diagram_canvas.grid()
 
     populate_pixel_array(image, diagram)
