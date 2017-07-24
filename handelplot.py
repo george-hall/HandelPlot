@@ -183,12 +183,12 @@ class Diagram(object):
     def __init__(self, window_width, window_height):
         self.real_range = (-2, 1)
         self.im_range = (-1, 1)
+        self.zoom_list = [(self.real_range, self.im_range)]
         self.window_width = window_width
         self.window_height = window_height
         self.set_deltas()
         self.dx, self.dy = self.get_deltas()
         self.rectangle = None
-        self.zoom_list = [self.get_axis_ranges()]
 
     def create_user_drawn_rectangle(self, canvas, start_x, start_y):
 
