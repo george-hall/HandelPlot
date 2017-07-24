@@ -207,6 +207,13 @@ class Diagram(object):
         """Append current axis ranges to zoom list"""
         self.zoom_list.append((real_range, im_range))
 
+    def revert_to_prev_zoom(self):
+        """
+        Revert to previous zoom level by removing the final element from
+        zoom_list.
+        """
+        self.set_zoom_list(self.get_zoom_list()[:-1])
+
     def set_zoom_list(self, new_zoom_list):
         self.zoom_list = new_zoom_list
 
