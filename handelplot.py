@@ -207,6 +207,9 @@ class Diagram(object):
         """Append current axis ranges to zoom list"""
         self.zoom_list.append((real_range, im_range))
 
+    def set_zoom_list(self, new_zoom_list):
+        self.zoom_list = new_zoom_list
+
     def set_deltas(self):
 
         """
