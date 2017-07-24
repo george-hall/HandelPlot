@@ -327,9 +327,7 @@ def button_1_release(event, diagram, canvas, image):
     diagram.im_range = (bot_right_im, top_left_im)
     diagram.append_to_zoom_list()
 
-    diagram.set_deltas()
-
-    populate_pixel_array(image, diagram)
+    zoom_image(diagram, image)
     remove_rectangle(diagram, canvas)
 
 
