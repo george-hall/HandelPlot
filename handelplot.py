@@ -272,10 +272,7 @@ def button_1_press(event, diagram, canvas):
     the user dragging the mouse with the button held.
     """
 
-    if diagram.get_user_drawn_rectangle() is not None:
-        canvas.delete(diagram.get_user_drawn_rectangle().get_rectangle_object())
-        diagram.rectangle = None
-
+    remove_rectangle(diagram, canvas)
     diagram.create_user_drawn_rectangle(canvas, event.x, event.y)
 
 
