@@ -11,6 +11,7 @@ from __future__ import division
 import argparse
 import math
 import colorsys
+from functools import partial
 
 import Tkinter
 
@@ -397,6 +398,9 @@ def main():
     rectangle_pos_str.set("Rectangle position")
     rectangle_pos_label = Tkinter.Label(root, textvariable=rectangle_pos_str, width=30)
     rectangle_pos_label.grid()
+
+    back_button = Tkinter.Button(root, text="Back", command=partial(go_back_one_zoom, diagram, image))
+    back_button.grid()
 
     root.iconbitmap('@images/handel_icon.xbm')
     root.title("HandelPlot")
