@@ -323,9 +323,9 @@ def button_1_release(event, diagram, canvas, image):
     bot_right_re, bot_right_im = convert_to_diagram_coords(rect_coords[2],
                                                            rect_coords[3],
                                                            diagram)
-    diagram.real_range = (top_left_re, bot_right_re)
-    diagram.im_range = (bot_right_im, top_left_im)
-    diagram.append_to_zoom_list()
+    real_range = (top_left_re, bot_right_re)
+    im_range = (bot_right_im, top_left_im)
+    diagram.append_to_zoom_list(real_range, im_range)
 
     zoom_image(diagram, image)
     remove_rectangle(diagram, canvas)
