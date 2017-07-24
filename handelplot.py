@@ -228,11 +228,11 @@ class Diagram(object):
 
     def get_real_range(self):
         """Getter for real_range"""
-        return self.real_range
+        return self.get_zoom_list()[-1][0]
 
     def get_im_range(self):
         """Getter for im_range"""
-        return self.im_range
+        return self.get_zoom_list()[-1][1]
 
     def get_axis_ranges(self):
         """Getter for ranges of both axes"""
