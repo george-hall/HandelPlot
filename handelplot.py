@@ -258,6 +258,12 @@ class Diagram(object):
         return (self.get_window_width(), self.get_window_height())
 
 
+def remove_rectangle(diagram, canvas):
+    if diagram.get_user_drawn_rectangle() is not None:
+        canvas.delete(diagram.get_user_drawn_rectangle().get_rectangle_object())
+        diagram.rectangle = None
+
+
 def button_1_press(event, diagram, canvas):
 
     """
