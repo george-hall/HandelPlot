@@ -203,6 +203,10 @@ class Diagram(object):
         """Getter for user drawn rectangle"""
         return self.rectangle
 
+    def append_to_zoom_list(self):
+        """Append current axis ranges to zoom list"""
+        self.zoom_list.append(self.get_axis_ranges())
+
     def set_deltas(self):
 
         """
