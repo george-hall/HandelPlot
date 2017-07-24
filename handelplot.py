@@ -330,7 +330,8 @@ def main():
     diagram_canvas.bind('<B1-Motion>',
                         lambda event: button_1_motion(event,
                                                       diagram,
-                                                      diagram_canvas))
+                                                      diagram_canvas,
+                                                      rectangle_pos_str))
     diagram_canvas.grid()
 
     populate_pixel_array(image, diagram)
@@ -339,6 +340,11 @@ def main():
     current_pos_str.set("Current mouse position")
     current_pos_label = Tkinter.Label(root, textvariable=current_pos_str)
     current_pos_label.grid()
+
+    rectangle_pos_str = Tkinter.StringVar()
+    rectangle_pos_str.set("Rectangle position")
+    rectangle_pos_label = Tkinter.Label(root, textvariable=rectangle_pos_str, width=30)
+    rectangle_pos_label.grid()
 
     root.iconbitmap('@images/handel_icon.xbm')
     root.title("HandelPlot")
