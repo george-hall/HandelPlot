@@ -345,6 +345,11 @@ def button_1_release(event, diagram, canvas, image):
     remove_rectangle(diagram, canvas)
 
 
+def go_back_one_zoom(diagram, image):
+    diagram.revert_to_prev_zoom()
+    zoom_image(diagram, image)
+
+
 def main():
 
     """
