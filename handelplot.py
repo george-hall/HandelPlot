@@ -188,6 +188,7 @@ class Diagram(object):
         self.set_deltas()
         self.dx, self.dy = self.get_deltas()
         self.rectangle = None
+        self.zoom_list = [self.get_axis_ranges()]
 
     def create_user_drawn_rectangle(self, canvas, start_x, start_y):
 
