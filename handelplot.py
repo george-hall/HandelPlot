@@ -273,7 +273,7 @@ def button_1_press(event, diagram, canvas):
     diagram.create_user_drawn_rectangle(canvas, event.x, event.y)
 
 
-def button_1_motion(event, diagram, canvas):
+def button_1_motion(event, diagram, canvas, rectangle_pos_str):
 
     """
     Event handler for the mouse being dragged with button 1 held. This expands
@@ -283,6 +283,18 @@ def button_1_motion(event, diagram, canvas):
     rectangle = diagram.get_user_drawn_rectangle()
     canvas.coords(rectangle.get_rectangle_object(), rectangle.get_start_x(),
                   rectangle.get_start_y(), event.x, event.y)
+    new_rect_coords = canvas.coords(rectangle.get_rectangle_object())
+    top_left_re, top_left_im = convert_to_diagram_coords(new_rect_coords[0],
+                                                           new_rect_coords[1],
+                                                           diagram)
+    bot_right_re, bot_right_im = convert_to_diagram_coords(new_rect_coords[2],
+                                                           new_rect_coords[3],
+                                                           diagram)
+
+    upper_left_str = convert_real_im_to_str(top_left_re, top_left_im)
+    bot_right_str = convert_real_im_to_str(bot_right_re, bot_right_im)
+
+    rectangle_pos_str.set(upper_left_str + " to " + bot_right_str)
 
 
 def main():
