@@ -272,7 +272,6 @@ def button_1_press(event, diagram, canvas):
     the user dragging the mouse with the button held.
     """
 
-    remove_rectangle(diagram, canvas)
     diagram.create_user_drawn_rectangle(canvas, event.x, event.y)
 
 
@@ -320,6 +319,7 @@ def button_1_release(event, diagram, canvas, image):
     diagram.set_deltas()
 
     populate_pixel_array(image, diagram)
+    remove_rectangle(diagram, canvas)
 
 
 def main():
