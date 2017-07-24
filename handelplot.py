@@ -263,6 +263,11 @@ class Diagram(object):
         return (self.get_window_width(), self.get_window_height())
 
 
+def zoom_image(diagram, image):
+    diagram.set_deltas()
+    populate_pixel_array(image, diagram)
+
+
 def remove_rectangle(diagram, canvas):
     if diagram.get_user_drawn_rectangle() is not None:
         canvas.delete(diagram.get_user_drawn_rectangle().get_rectangle_object())
