@@ -262,6 +262,9 @@ class Diagram(object):
         """Getter for both window dimensions"""
         return (self.get_window_width(), self.get_window_height())
 
+    def get_zoom_list(self):
+        return self.zoom_list
+
 
 def zoom_image(diagram, image):
     diagram.set_deltas()
