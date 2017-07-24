@@ -320,6 +320,7 @@ def button_1_release(event, diagram, canvas, image):
                                                            diagram)
     diagram.real_range = (top_left_re, bot_right_re)
     diagram.im_range = (bot_right_im, top_left_im)
+    diagram.append_to_zoom_list()
 
     diagram.set_deltas()
 
