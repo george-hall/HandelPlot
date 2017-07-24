@@ -297,6 +297,28 @@ def button_1_motion(event, diagram, canvas, rectangle_pos_str):
     rectangle_pos_str.set(upper_left_str + " to " + bot_right_str)
 
 
+def button_1_release(event, diagram, canvas, image):
+
+    """
+    When mouse button is released, zoom into the selected area of the set.
+    """
+
+    rectangle = diagram.get_user_drawn_rectangle()
+    rect_coords = canvas.coords(rectangle.get_rectangle_object())
+    top_left_re, top_left_im = convert_to_diagram_coords(rect_coords[0],
+                                                         rect_coords[1],
+                                                         diagram)
+    bot_right_re, bot_right_im = convert_to_diagram_coords(rect_coords[2],
+                                                           rect_coords[3],
+                                                           diagram)
+    diagram.real_range = (top_left_re, bot_right_re)
+    diagram.im_range = (bot_right_im, top_left_im)
+
+    diagram.set_deltas()
+
+    populate_pixel_array(image, diagram)
+
+
 def main():
 
     """
