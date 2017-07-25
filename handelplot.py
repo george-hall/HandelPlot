@@ -373,6 +373,9 @@ def main():
                                  diagram.get_window_height() / 2),
                                 image=image)
 
+    global back_button
+    back_button = Tkinter.Button(root, text="Back", state="disabled", command=lambda: go_back_one_zoom(diagram, image))
+
     diagram_canvas.bind('<Motion>',
                         lambda event: motion(event, diagram, current_pos_str))
     diagram_canvas.bind('<Button-1>',
@@ -403,7 +406,6 @@ def main():
     rectangle_pos_label = Tkinter.Label(root, textvariable=rectangle_pos_str, width=30)
     rectangle_pos_label.grid()
 
-    back_button = Tkinter.Button(root, text="Back", command=lambda: go_back_one_zoom(diagram, image))
     back_button.grid()
 
     root.iconbitmap('@images/handel_icon.xbm')
