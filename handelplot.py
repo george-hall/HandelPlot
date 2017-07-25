@@ -343,10 +343,15 @@ def button_1_release(event, diagram, canvas, image):
     zoom_image(diagram, image)
     remove_rectangle(diagram, canvas)
 
+    back_button['state'] = 'active'
+
+
 
 def go_back_one_zoom(diagram, image):
     diagram.revert_to_prev_zoom()
     zoom_image(diagram, image)
+    if len(diagram.get_zoom_list()) == 1:
+        back_button.config(state='disabled')
 
 
 def main():
