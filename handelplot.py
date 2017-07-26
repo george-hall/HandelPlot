@@ -65,7 +65,7 @@ def populate_pixel_array(image, diagram):
     for x_pixel in xrange(window_width):
         for y_pixel in xrange(window_height):
             # Number of iterations until point is deemed to not be in the Set:
-            iters_cutoff = 64
+            iters_cutoff = 256
             escape_val, num_iterations = decide_if_point_escapes(current_point, iters_cutoff)
             if num_iterations != -1:
 
