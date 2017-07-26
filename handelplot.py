@@ -15,7 +15,7 @@ import colorsys
 import Tkinter
 
 
-def decide_if_point_escapes(current_point):
+def decide_if_point_escapes(current_point, iters_cutoff):
 
     """
     Compute and return the number of iterations required for this point to
@@ -27,7 +27,7 @@ def decide_if_point_escapes(current_point):
     z_value = (0+0j)
     c_value = (current_point.real + (current_point.imag * 1j))
 
-    for iteration_number in xrange(64):
+    for iteration_number in xrange(iters_cutoff):
         if z_value.real > 2 or z_value.imag > 2:
             return (z_value, iteration_number)
         else:
@@ -64,7 +64,9 @@ def populate_pixel_array(image, diagram):
 
     for x_pixel in xrange(window_width):
         for y_pixel in xrange(window_height):
-            escape_val, num_iterations = decide_if_point_escapes(current_point)
+            # Number of iterations until point is deemed to not be in the Set:
+            iters_cutoff = 64
+            escape_val, num_iterations = decide_if_point_escapes(current_point, iters_cutoff)
             if num_iterations != -1:
 
                 # Alter hue in proportion to how quickly the point escapes the
