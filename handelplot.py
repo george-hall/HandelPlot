@@ -15,7 +15,7 @@ import colorsys
 import Tkinter
 
 
-def decide_if_point_escapes(current_point, iters_cutoff):
+def iterate_point(current_point, iters_cutoff):
 
     """
     Compute and return the number of iterations required for this point to
@@ -76,7 +76,7 @@ def compute_mandelbrot_set(image, diagram):
         for y_pixel in xrange(window_height):
             # Number of iterations until point is deemed to not be in the Set:
             iters_cutoff = 256
-            escape_val, num_iters = decide_if_point_escapes(current_point, iters_cutoff)
+            escape_val, num_iters = iterate_point(current_point, iters_cutoff)
             colour_pixel(image, (window_height - y_pixel, x_pixel), num_iters, escape_val)
 
             current_point += (dy * 1j)
