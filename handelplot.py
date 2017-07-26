@@ -166,9 +166,9 @@ class Diagram(object):
             self.start_x = start_x
             self.start_y = start_y
             self.rect_object = canvas.create_rectangle(self.get_start_x(),
-                                                            self.get_start_y(),
-                                                            self.get_start_x(),
-                                                            self.get_start_y())
+                                                       self.get_start_y(),
+                                                       self.get_start_x(),
+                                                       self.get_start_y())
 
         def get_start_x(self):
             """Getter for the x ordinate of where the rectangle was started"""
