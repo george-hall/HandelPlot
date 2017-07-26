@@ -49,7 +49,7 @@ def colour_pixel(image, pos, colours):
     image.put("#%02x%02x%02x" % (r * 255, g * 255, b * 255), (y, x))
 
 
-def populate_pixel_array(image, diagram):
+def compute_mandelbrot_set(image, diagram):
 
     """
     Populate pixels in 'image' with colours set according to how quickly each
@@ -280,7 +280,7 @@ class Diagram(object):
 
 def zoom_image(diagram, image):
     diagram.set_deltas()
-    populate_pixel_array(image, diagram)
+    compute_mandelbrot_set(image, diagram)
 
 
 def remove_rectangle(diagram, canvas):
@@ -401,7 +401,7 @@ def main():
 
     diagram_canvas.grid()
 
-    populate_pixel_array(image, diagram)
+    compute_mandelbrot_set(image, diagram)
 
     current_pos_str = Tkinter.StringVar()
     current_pos_str.set("Current mouse position")
