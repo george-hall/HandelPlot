@@ -76,8 +76,8 @@ def compute_mandelbrot_set(image, diagram):
         for y_pixel in xrange(window_height):
             # Number of iterations until point is deemed to not be in the Set:
             iters_cutoff = 256
-            escape_val, num_iterations = decide_if_point_escapes(current_point, iters_cutoff)
-            colour_pixel(image, (window_height - y_pixel, x_pixel), num_iterations, escape_val)
+            escape_val, num_iters = decide_if_point_escapes(current_point, iters_cutoff)
+            colour_pixel(image, (window_height - y_pixel, x_pixel), num_iters, escape_val)
 
             current_point += (dy * 1j)
         current_point = (current_point.real + dx) + (im_axis_range[0] * 1j)
