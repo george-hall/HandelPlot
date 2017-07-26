@@ -324,7 +324,7 @@ def button_1_motion(event, diagram, canvas, rect_pos_str):
     rect_pos_str.set(upper_left_str + " to " + bot_right_str)
 
 
-def button_1_release(event, diagram, canvas, image):
+def button_1_release(diagram, canvas, image):
 
     """
     When mouse button is released, zoom into the selected area of the set.
@@ -398,8 +398,8 @@ def main():
                                                       rect_pos_str))
 
     diagram_canvas.bind('<ButtonRelease-1>',
-                        lambda event: button_1_release(event, diagram,
-                                                       diagram_canvas, image))
+                        lambda event: button_1_release(diagram, diagram_canvas,
+                                                       image))
 
     diagram_canvas.grid()
 
