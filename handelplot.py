@@ -217,6 +217,7 @@ class Diagram(object):
         self.set_zoom_list(self.get_zoom_list()[:-1])
 
     def set_zoom_list(self, new_zoom_list):
+        """Setter for zoom_list"""
         self.zoom_list = new_zoom_list
 
     def set_deltas(self):
@@ -275,15 +276,18 @@ class Diagram(object):
         return (self.get_window_width(), self.get_window_height())
 
     def get_zoom_list(self):
+        """Getter for zoom_list"""
         return self.zoom_list
 
 
 def zoom_image(diagram, image):
+    """Zoom the image, given the new ranges stored in diagram"""
     diagram.set_deltas()
     compute_mandelbrot_set(image, diagram)
 
 
 def remove_rect(diagram, canvas):
+    """Remove the user drawn rectangle from the diagram"""
     if diagram.get_user_drawn_rect() is not None:
         canvas.delete(diagram.get_user_drawn_rect().get_rect_object())
         diagram.rect = None
@@ -350,6 +354,10 @@ def button_1_release(diagram, canvas, image):
 
 
 def go_back_one_zoom(diagram, image):
+    """
+    Revert the display to the pervious zoom level used (i.e. the previous
+    ranges stored in zoom_list)
+    """
     diagram.revert_to_prev_zoom()
     zoom_image(diagram, image)
     if len(diagram.get_zoom_list()) == 1:
