@@ -165,7 +165,7 @@ class Diagram(object):
         def __init__(self, canvas, start_x, start_y):
             self.start_x = start_x
             self.start_y = start_y
-            self.rectangle_object = canvas.create_rectangle(self.get_start_x(),
+            self.rect_object = canvas.create_rectangle(self.get_start_x(),
                                                             self.get_start_y(),
                                                             self.get_start_x(),
                                                             self.get_start_y())
@@ -178,9 +178,9 @@ class Diagram(object):
             """Getter for the y ordinate of where the rectangle was started"""
             return self.start_y
 
-        def get_rectangle_object(self):
+        def get_rect_object(self):
             """Getter for the rectangle object itself"""
-            return self.rectangle_object
+            return self.rect_object
 
     def __init__(self, window_width, window_height):
         self.real_range = (-2, 1)
@@ -190,20 +190,20 @@ class Diagram(object):
         self.window_height = window_height
         self.set_deltas()
         self.dx, self.dy = self.get_deltas()
-        self.rectangle = None
+        self.rect = None
 
-    def create_user_drawn_rectangle(self, canvas, start_x, start_y):
+    def create_user_drawn_rect(self, canvas, start_x, start_y):
 
         """
         Creates an instance of class UserDrawnRectangle and stores it at
         self.rectangle.
         """
 
-        self.rectangle = self.UserDrawnRectangle(canvas, start_x, start_y)
+        self.rect = self.UserDrawnRectangle(canvas, start_x, start_y)
 
-    def get_user_drawn_rectangle(self):
+    def get_user_drawn_rect(self):
         """Getter for user drawn rectangle"""
-        return self.rectangle
+        return self.rect
 
     def append_to_zoom_list(self, real_range, im_range):
         """Append current axis ranges to zoom list"""
@@ -283,10 +283,10 @@ def zoom_image(diagram, image):
     compute_mandelbrot_set(image, diagram)
 
 
-def remove_rectangle(diagram, canvas):
-    if diagram.get_user_drawn_rectangle() is not None:
-        canvas.delete(diagram.get_user_drawn_rectangle().get_rectangle_object())
-        diagram.rectangle = None
+def remove_rect(diagram, canvas):
+    if diagram.get_user_drawn_rect() is not None:
+        canvas.delete(diagram.get_user_drawn_rect().get_rect_object())
+        diagram.rect = None
 
 
 def button_1_press(event, diagram, canvas):
@@ -297,20 +297,20 @@ def button_1_press(event, diagram, canvas):
     the user dragging the mouse with the button held.
     """
 
-    diagram.create_user_drawn_rectangle(canvas, event.x, event.y)
+    diagram.create_user_drawn_rect(canvas, event.x, event.y)
 
 
-def button_1_motion(event, diagram, canvas, rectangle_pos_str):
+def button_1_motion(event, diagram, canvas, rect_pos_str):
 
     """
     Event handler for the mouse being dragged with button 1 held. This expands
     the rectangle created when the button was first pressed.
     """
 
-    rectangle = diagram.get_user_drawn_rectangle()
-    canvas.coords(rectangle.get_rectangle_object(), rectangle.get_start_x(),
-                  rectangle.get_start_y(), event.x, event.y)
-    new_rect_coords = canvas.coords(rectangle.get_rectangle_object())
+    rect = diagram.get_user_drawn_rect()
+    canvas.coords(rect.get_rect_object(), rect.get_start_x(),
+                  rect.get_start_y(), event.x, event.y)
+    new_rect_coords = canvas.coords(rect.get_rect_object())
     top_left_re, top_left_im = convert_to_diagram_coords(new_rect_coords[0],
                                                          new_rect_coords[1],
                                                          diagram)
@@ -321,7 +321,7 @@ def button_1_motion(event, diagram, canvas, rectangle_pos_str):
     upper_left_str = convert_real_im_to_str(top_left_re, top_left_im)
     bot_right_str = convert_real_im_to_str(bot_right_re, bot_right_im)
 
-    rectangle_pos_str.set(upper_left_str + " to " + bot_right_str)
+    rect_pos_str.set(upper_left_str + " to " + bot_right_str)
 
 
 def button_1_release(event, diagram, canvas, image):
@@ -330,8 +330,8 @@ def button_1_release(event, diagram, canvas, image):
     When mouse button is released, zoom into the selected area of the set.
     """
 
-    rectangle = diagram.get_user_drawn_rectangle()
-    rect_coords = canvas.coords(rectangle.get_rectangle_object())
+    rect = diagram.get_user_drawn_rect()
+    rect_coords = canvas.coords(rect.get_rect_object())
     top_left_re, top_left_im = convert_to_diagram_coords(rect_coords[0],
                                                          rect_coords[1],
                                                          diagram)
@@ -343,7 +343,7 @@ def button_1_release(event, diagram, canvas, image):
     diagram.append_to_zoom_list(real_range, im_range)
 
     zoom_image(diagram, image)
-    remove_rectangle(diagram, canvas)
+    remove_rect(diagram, canvas)
 
     back_button['state'] = 'active'
 
@@ -395,7 +395,7 @@ def main():
                         lambda event: button_1_motion(event,
                                                       diagram,
                                                       diagram_canvas,
-                                                      rectangle_pos_str))
+                                                      rect_pos_str))
 
     diagram_canvas.bind('<ButtonRelease-1>',
                         lambda event: button_1_release(event, diagram,
@@ -410,11 +410,11 @@ def main():
     current_pos_label = Tkinter.Label(root, textvariable=current_pos_str)
     current_pos_label.grid()
 
-    rectangle_pos_str = Tkinter.StringVar()
-    rectangle_pos_str.set("Rectangle position")
-    rectangle_pos_label = Tkinter.Label(root, textvariable=rectangle_pos_str, \
+    rect_pos_str = Tkinter.StringVar()
+    rect_pos_str.set("Rectangle position")
+    rect_pos_label = Tkinter.Label(root, textvariable=rect_pos_str, \
                                         width=30)
-    rectangle_pos_label.grid()
+    rect_pos_label.grid()
 
     back_button.grid()
 
