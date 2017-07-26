@@ -77,7 +77,8 @@ def compute_mandelbrot_set(image, diagram):
             # Number of iterations until point is deemed to not be in the Set:
             iters_cutoff = 256
             escape_val, num_iters = iterate_point(current_point, iters_cutoff)
-            colour_pixel(image, (window_height - y_pixel, x_pixel), num_iters, escape_val)
+            colour_pixel(image, (window_height - y_pixel, x_pixel), \
+                         num_iters, escape_val)
 
             current_point += (dy * 1j)
         current_point = (current_point.real + dx) + (im_axis_range[0] * 1j)
@@ -380,7 +381,9 @@ def main():
                                 image=image)
 
     global back_button
-    back_button = Tkinter.Button(root, text="Back", state="disabled", command=lambda: go_back_one_zoom(diagram, image))
+    back_button = Tkinter.Button(root, text="Back", state="disabled", \
+                                 command=lambda: go_back_one_zoom(diagram, \
+                                                                  image))
 
     diagram_canvas.bind('<Motion>',
                         lambda event: motion(event, diagram, current_pos_str))
@@ -409,7 +412,8 @@ def main():
 
     rectangle_pos_str = Tkinter.StringVar()
     rectangle_pos_str.set("Rectangle position")
-    rectangle_pos_label = Tkinter.Label(root, textvariable=rectangle_pos_str, width=30)
+    rectangle_pos_label = Tkinter.Label(root, textvariable=rectangle_pos_str, \
+                                        width=30)
     rectangle_pos_label.grid()
 
     back_button.grid()
