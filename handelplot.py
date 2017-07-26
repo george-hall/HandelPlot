@@ -412,8 +412,7 @@ def main():
 
     rect_pos_str = Tkinter.StringVar()
     rect_pos_str.set("Rectangle position")
-    rect_pos_label = Tkinter.Label(root, textvariable=rect_pos_str, \
-                                        width=30)
+    rect_pos_label = Tkinter.Label(root, textvariable=rect_pos_str, width=30)
     rect_pos_label.grid()
 
     back_button.grid()
