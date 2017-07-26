@@ -36,13 +36,23 @@ def decide_if_point_escapes(current_point, iters_cutoff):
     return (z_value, -1)
 
 
-def colour_pixel(image, pos, colours):
+def colour_pixel(image, pos, num_iterations, escape_val):
 
     """
-    Set pixel with co-ordinates given in pos to RGB colour given by colours.
+    Set pixel with co-ordinates given in pos to colour reflecting how quickly
+    that point escaped the Set.
     """
 
-    h, s, v = colours
+    if num_iterations != -1:
+
+        # Alter hue in proportion to how quickly the point escapes the
+        # Set and how large it grows
+        h = num_iterations + 1 - \
+                (math.log(math.log(abs(escape_val))) / math.log(2))
+        (h, s, v) = (h/64, 1, 1)
+    else:
+        (h, s, v) = (0, 0, 0)
+
     x, y = pos
 
     r, g, b = colorsys.hsv_to_rgb(h, s, v)
@@ -52,8 +62,8 @@ def colour_pixel(image, pos, colours):
 def compute_mandelbrot_set(image, diagram):
 
     """
-    Populate pixels in 'image' with colours set according to how quickly each
-    pixel's corresponding point escapes the Mandelbrot Set.
+    Iterate over all pixels in the diagram, computing how quickly each point
+    escapes the Set.
     """
 
     window_width, window_height = diagram.get_window_dimensions()
@@ -67,18 +77,7 @@ def compute_mandelbrot_set(image, diagram):
             # Number of iterations until point is deemed to not be in the Set:
             iters_cutoff = 256
             escape_val, num_iterations = decide_if_point_escapes(current_point, iters_cutoff)
-            if num_iterations != -1:
-
-                # Alter hue in proportion to how quickly the point escapes the
-                # Set and how large it grows
-                hue = num_iterations + 1 - \
-                        (math.log(math.log(abs(escape_val))) / math.log(2))
-                hue = hue / 64
-
-                colour_pixel(image, (window_height - y_pixel, x_pixel),
-                             (hue, 1, 1))
-            else:
-                colour_pixel(image, (window_height - y_pixel, x_pixel), (0, 0, 0))
+            colour_pixel(image, (window_height - y_pixel, x_pixel), num_iterations, escape_val)
 
             current_point += (dy * 1j)
         current_point = (current_point.real + dx) + (im_axis_range[0] * 1j)
