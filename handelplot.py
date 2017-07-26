@@ -312,8 +312,8 @@ def button_1_motion(event, diagram, canvas, rectangle_pos_str):
                   rectangle.get_start_y(), event.x, event.y)
     new_rect_coords = canvas.coords(rectangle.get_rectangle_object())
     top_left_re, top_left_im = convert_to_diagram_coords(new_rect_coords[0],
-                                                           new_rect_coords[1],
-                                                           diagram)
+                                                         new_rect_coords[1],
+                                                         diagram)
     bot_right_re, bot_right_im = convert_to_diagram_coords(new_rect_coords[2],
                                                            new_rect_coords[3],
                                                            diagram)
