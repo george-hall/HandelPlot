@@ -73,10 +73,10 @@ def populate_pixel_array(image, diagram):
                         (math.log(math.log(abs(escape_val))) / math.log(2))
                 hue = hue / 64
 
-                colour_pixel(image, (y_pixel, x_pixel),
+                colour_pixel(image, (window_height - y_pixel, x_pixel),
                              (hue, 1, 1))
             else:
-                colour_pixel(image, (y_pixel, x_pixel), (0, 0, 0))
+                colour_pixel(image, (window_height - y_pixel, x_pixel), (0, 0, 0))
 
             current_point += (dy * 1j)
         current_point = (current_point.real + dx) + (im_axis_range[0] * 1j)
